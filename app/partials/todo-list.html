@@ -1,0 +1,40 @@
+﻿<section id="todoapp">
+    <header id="header">
+        <h1>todos</h1>
+        <input id="new-todo" placeholder="What needs to be done?" autofocus="" todo-task-input>
+    </header>
+    <section id="main" ng-show="tasks.length">
+        <input id="toggle-all" type="checkbox" ng-model="completeAll" ng-change="completeAllTasks()">
+        <label for="toggle-all">Mark all as complete</label>
+        <ul id="todo-list">
+            <li ng-repeat="task in tasks | filter: taskFilter" ng-class="{ completed: task.completed, editing: task.editing }">
+                <div class="view">
+                    <input class="toggle" type="checkbox" ng-model="task.completed">
+                    <label ng-dblclick="task.editing = true">{{task.text}}</label>
+                    <button class="destroy" ng-click="removeTask($index)"></button>
+                </div>
+                <input class="edit" 
+                       ng-model="task.text" 
+                       focus-when="task.editing == true" 
+                       todo-on-blur="task.editing = false" 
+                       todo-task-edit="task">
+            </li>
+        </ul>
+        
+    </section>
+    <footer id="footer" ng-show="tasks.length">
+        <span id="todo-count"><strong>{{activeTasks.length}}</strong> item{{activeTasks.length !== 1 ? 's' : ''}} left</span>
+        <ul id="filters">
+            <li>
+                <a active-link="selected" href="#/todo/all">All</a>
+            </li>
+            <li>
+                <a active-link="selected" href="#/todo/active">Active</a>
+            </li>
+            <li>
+                <a active-link="selected" href="#/todo/completed">Completed</a>
+            </li>
+        </ul>
+        <button id="clear-completed" ng-click="clearCompleted()" ng-show="completedTasks.length">Clear completed ({{completedTasks.length}})</button>
+    </footer>
+</section>
